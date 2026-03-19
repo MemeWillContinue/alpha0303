@@ -59,7 +59,8 @@ body {
   border-bottom: none !important;
 }
 
-.sidebar-nav > ul > li > .sidebar-nav-item {
+.sidebar-nav > ul > li > .sidebar-nav-item,
+.sidebar-nav > ul > li > p {
   font-size: 0.75rem !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
@@ -257,67 +258,68 @@ body {
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2) !important;
 }
 
+/* PC 端：确保侧边栏在左、目录内容可见、不跑到底部 */
+.sidebar {
+  overflow-y: auto !important;
+  overflow-x: visible !important;
+}
+
+.sidebar-nav,
+.sidebar-nav ul,
+.sidebar-nav li {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 /* 移动端适配 - 侧边栏收起时完全隐藏，仅保留唤起按钮 */
 @media screen and (max-width: 768px) {
   body {
     background: var(--content-bg) !important;
   }
 
-  /* 默认侧边栏完全移出视口，避免遮挡内容 */
-  .sidebar {
-    transform: translateX(-100%) !important;
-  }
-
+  /* 内容区占满宽，不被遮挡 */
   .content {
-    padding: 1.5rem 1rem 4rem 3rem !important;
+    padding: 1.5rem 1rem 4rem 3.5rem !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
   }
 
-  /* 移动端默认：侧边栏完全移出视口 */
-  .sidebar {
+  /* 默认：侧边栏移出视口（body.close = 收起） */
+  body.close .sidebar {
     transform: translateX(-100%) !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
+    transition: transform 0.3s ease !important;
   }
 
-  /* 侧边栏展开时（用户点击唤起按钮后）：覆盖显示 */
-  body:not(.close) .sidebar {
-    transform: translateX(-100%) !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transition: transform 0.3s ease, visibility 0.3s ease !important;
-  }
-
-  /* 侧边栏展开时：以遮罩层形式覆盖在内容之上 */
+  /* 展开时：侧边栏滑入覆盖，显示完整目录 */
   body:not(.close) .sidebar {
     transform: translateX(0) !important;
     visibility: visible !important;
     pointer-events: auto !important;
     width: min(280px, 85vw) !important;
-    z-index: 100 !important;
+    z-index: 1000 !important;
     box-shadow: 4px 0 20px rgba(0,0,0,0.15) !important;
+    overflow-y: auto !important;
+    transition: transform 0.3s ease !important;
   }
 
-  /* 展开时的半透明遮罩，点击关闭侧边栏 */
+  /* 展开时的遮罩 */
   body:not(.close) .content::before {
     content: '' !important;
     position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
+    inset: 0 !important;
     background: rgba(0,0,0,0.3) !important;
-    z-index: 99 !important;
+    z-index: 999 !important;
+    pointer-events: auto !important;
   }
 
   body.close .content::before {
     display: none !important;
   }
 
-  /* 侧边栏唤起按钮：始终可见，固定在左上角 */
+  /* 唤起按钮：始终可见 */
   .sidebar-toggle {
     display: block !important;
     left: 0.5rem !important;
@@ -328,7 +330,7 @@ body {
     background: var(--pinkwallet-purple) !important;
     color: #fff !important;
     border-radius: 8px !important;
-    z-index: 101 !important;
+    z-index: 1001 !important;
     border: none !important;
   }
 
@@ -346,14 +348,27 @@ strong {
   color: var(--text-primary) !important;
 }
 
-/* 封面页 - GitBook 风格 */
+/* 封面页 - GitBook 风格，确保按钮可点击 */
 .cover,
 .section.cover {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #7c3aed 100%) !important;
+  position: relative !important;
+  z-index: 5 !important;
+  pointer-events: auto !important;
 }
 
 .cover-main {
   color: #fff !important;
+  position: relative !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+}
+
+.cover-main a {
+  position: relative !important;
+  z-index: 20 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
 .cover-main h1 {
@@ -372,7 +387,13 @@ strong {
 }
 
 .cover-main .cover-main-content p:last-child a,
-.cover-main .btn {
+.cover-main .btn,
+.cover-main a[href] {
+  position: relative !important;
+  z-index: 20 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  display: inline-block !important;
   background: #fff !important;
   color: var(--pinkwallet-purple) !important;
   font-weight: 600 !important;
