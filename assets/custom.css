@@ -438,3 +438,95 @@ strong {
 .docsify-copy-code-button:hover {
   background: var(--pinkwallet-purple-dark) !important;
 }
+
+/* ============================================
+   Flat edition overrides
+   - remove gradients/shadows
+   - keep clean borders and readable spacing
+   ============================================ */
+:root {
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e2e8f0;
+  --content-bg: #f5f6f8;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --code-bg: #eef2f7;
+}
+
+body,
+.app-body,
+.content,
+.markdown-section {
+  background: var(--content-bg) !important;
+}
+
+.sidebar {
+  box-shadow: none !important;
+}
+
+.sidebar-nav ul li a {
+  border-radius: 4px !important;
+}
+
+.markdown-section h1 {
+  border-bottom: 1px solid var(--sidebar-border) !important;
+}
+
+.markdown-section table {
+  border: 1px solid var(--sidebar-border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #fff !important;
+}
+
+.markdown-section th {
+  background: #f3f4f6 !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--sidebar-border) !important;
+}
+
+.markdown-section tr:hover td {
+  background: transparent !important;
+}
+
+.markdown-section pre {
+  background: #f8fafc !important;
+  border: 1px solid var(--sidebar-border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.markdown-section pre > code {
+  color: var(--text-primary) !important;
+}
+
+.markdown-section blockquote {
+  border-left: 3px solid var(--pinkwallet-purple) !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.cover,
+.section.cover {
+  background: #7c3aed !important;
+}
+
+.cover-main .cover-main-content p:last-child a,
+.cover-main .btn,
+.cover-main a[href] {
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+.cover-main .cover-main-content p:last-child a:hover,
+.cover-main .btn:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.docsify-copy-code-button {
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}

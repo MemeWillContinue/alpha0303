@@ -40,7 +40,8 @@
 
   body:not(.close) .sidebar {
     transform: translateX(0) !important;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: none !important;
+    border-right: 1px solid var(--sidebar-border) !important;
   }
 
   /* Content always keeps full width */
@@ -147,7 +148,7 @@
   .app-body,
   .content,
   .markdown-section {
-    background: #fdf2f8 !important;
+    background: var(--content-bg) !important;
   }
 }
 
