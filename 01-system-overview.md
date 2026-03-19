@@ -1,13 +1,13 @@
 # 一、系统概述
 
-PinkWallet 是面向全球开发者与机构提供的数字资产基础设施平台，核心能力包括：
+PinkWallet 提供数字资产基础设施能力，核心模块如下：
 
 - **多链钱包管理**（Wallet Infrastructure）
 - **虚拟账户体系**（Virtual Account, VA）
 - **钱包即服务**（Wallet as a Service, BaaS）
 - **资金清算与结算系统**（Clearing & Settlement Engine）
 
-平台采用**统一账户模型**（Unified Account Model），实现多资产统一管理、实时清算及跨系统资金流转。
+平台采用**统一账户模型**（Unified Account Model），用于多资产统一管理与实时清算。
 
 ---
 
