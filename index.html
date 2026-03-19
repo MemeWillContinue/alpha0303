@@ -43,13 +43,17 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
   <script>
     (function() {
-      if (window.innerWidth <= 768 && !document.body.classList.contains('close')) {
-        document.body.classList.add('close');
-      }
-      window.addEventListener('resize', function() {
-        if (window.innerWidth <= 768 && !document.body.classList.contains('close')) {
+      function syncSidebarState() {
+        if (window.innerWidth <= 768) {
           document.body.classList.add('close');
+          return;
         }
+        document.body.classList.remove('close');
+      }
+
+      syncSidebarState();
+      window.addEventListener('resize', function() {
+        syncSidebarState();
       });
     })();
   </script>
