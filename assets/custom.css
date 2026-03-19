@@ -8,7 +8,7 @@
   --pinkwallet-purple-dark: #5b21b6;
   --sidebar-bg: #fafafa;
   --sidebar-border: #e5e7eb;
-  --content-bg: #ffffff;
+  --content-bg: #fdf2f8;
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
   --code-bg: #f3f4f6;
@@ -257,16 +257,85 @@ body {
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2) !important;
 }
 
-/* 移动端适配 */
+/* 移动端适配 - 侧边栏收起时完全隐藏，仅保留唤起按钮 */
 @media screen and (max-width: 768px) {
-  .content {
-    padding: 1.5rem 1.25rem !important;
+  body {
+    background: var(--content-bg) !important;
   }
-  
+
+  /* 默认侧边栏完全移出视口，避免遮挡内容 */
   .sidebar {
-    width: 100% !important;
+    transform: translateX(-100%) !important;
   }
-  
+
+  .content {
+    padding: 1.5rem 1rem 4rem 3rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 移动端默认：侧边栏完全移出视口 */
+  .sidebar {
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* 侧边栏展开时（用户点击唤起按钮后）：覆盖显示 */
+  body:not(.close) .sidebar {
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: transform 0.3s ease, visibility 0.3s ease !important;
+  }
+
+  /* 侧边栏展开时：以遮罩层形式覆盖在内容之上 */
+  body:not(.close) .sidebar {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    width: min(280px, 85vw) !important;
+    z-index: 100 !important;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.15) !important;
+  }
+
+  /* 展开时的半透明遮罩，点击关闭侧边栏 */
+  body:not(.close) .content::before {
+    content: '' !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0,0,0,0.3) !important;
+    z-index: 99 !important;
+  }
+
+  body.close .content::before {
+    display: none !important;
+  }
+
+  /* 侧边栏唤起按钮：始终可见，固定在左上角 */
+  .sidebar-toggle {
+    display: block !important;
+    left: 0.5rem !important;
+    top: 0.5rem !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    padding: 0 !important;
+    background: var(--pinkwallet-purple) !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    z-index: 101 !important;
+    border: none !important;
+  }
+
+  .sidebar-toggle span {
+    background-color: #fff !important;
+  }
+
   .markdown-section h1 {
     font-size: 1.5rem !important;
   }
