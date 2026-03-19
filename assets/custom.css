@@ -97,11 +97,17 @@ body {
   border-left-color: var(--pinkwallet-purple) !important;
 }
 
-/* 主内容区 */
+/* 主内容区 - 仅 PC 端留出侧边栏空间 */
+@media screen and (min-width: 769px) {
+  .content {
+    margin-left: var(--sidebar-width) !important;
+  }
+}
+
 .content {
   padding: 2.5rem 3rem 4rem !important;
   max-width: 820px !important;
-  margin: 0 auto !important;
+  margin-right: auto !important;
 }
 
 .markdown-section {
@@ -258,7 +264,13 @@ body {
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2) !important;
 }
 
-/* PC 端：确保侧边栏在左、目录内容可见、不跑到底部 */
+/* PC 端：侧边栏左侧、内容区留出边距 */
+@media screen and (min-width: 769px) {
+  .content {
+    margin-left: var(--sidebar-width) !important;
+  }
+}
+
 .sidebar {
   overflow-y: auto !important;
   overflow-x: visible !important;
@@ -272,45 +284,49 @@ body {
   opacity: 1 !important;
 }
 
-/* 移动端适配 - 侧边栏收起时完全隐藏，仅保留唤起按钮 */
+/* 移动端：内容占满屏、侧边栏默认完全隐藏、粉色背景 */
 @media screen and (max-width: 768px) {
-  body {
+  body,
+  .app-body,
+  .content,
+  .markdown-section {
     background: var(--content-bg) !important;
   }
 
-  /* 内容区占满宽，不被遮挡 */
+  /* 关键：内容区取消左侧留白，占满整屏 */
   .content {
-    padding: 1.5rem 1rem 4rem 3.5rem !important;
+    padding: 1.5rem 1rem 4rem 3rem !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
   }
 
-  /* 默认：侧边栏移出视口（body.close = 收起） */
-  body.close .sidebar {
+  /* 侧边栏默认完全移出视口，不占任何空间 */
+  .sidebar {
     transform: translateX(-100%) !important;
     transition: transform 0.3s ease !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    height: 100vh !important;
+    z-index: 1000 !important;
   }
 
-  /* 展开时：侧边栏滑入覆盖，显示完整目录 */
+  /* 仅当用户点击汉堡按钮展开时，侧边栏滑入 */
   body:not(.close) .sidebar {
     transform: translateX(0) !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
     width: min(280px, 85vw) !important;
-    z-index: 1000 !important;
-    box-shadow: 4px 0 20px rgba(0,0,0,0.15) !important;
-    overflow-y: auto !important;
-    transition: transform 0.3s ease !important;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.2) !important;
   }
 
-  /* 展开时的遮罩 */
+  /* 展开时的遮罩，点击可关闭 */
   body:not(.close) .content::before {
     content: '' !important;
     position: fixed !important;
     inset: 0 !important;
-    background: rgba(0,0,0,0.3) !important;
+    background: rgba(0,0,0,0.4) !important;
     z-index: 999 !important;
     pointer-events: auto !important;
   }
@@ -319,7 +335,6 @@ body {
     display: none !important;
   }
 
-  /* 唤起按钮：始终可见 */
   .sidebar-toggle {
     display: block !important;
     left: 0.5rem !important;

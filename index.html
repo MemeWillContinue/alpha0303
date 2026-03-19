@@ -7,6 +7,7 @@
   <title>🟣 PinkWallet 技术文档</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@3/lib/themes/vue.css">
   <link rel="stylesheet" href="assets/custom.css">
+  <link rel="stylesheet" href="assets/mobile-fix.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,5 +41,17 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify@3"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@3/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
+  <script>
+    (function() {
+      if (window.innerWidth <= 768 && !document.body.classList.contains('close')) {
+        document.body.classList.add('close');
+      }
+      window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768 && !document.body.classList.contains('close')) {
+          document.body.classList.add('close');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
