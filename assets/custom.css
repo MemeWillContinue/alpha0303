@@ -530,3 +530,44 @@ body,
   border-radius: 4px !important;
   box-shadow: none !important;
 }
+
+/* ============================================
+   Single-page mode (no sidebar)
+   ============================================ */
+body.no-sidebar .sidebar,
+body.no-sidebar .sidebar-toggle,
+body.no-sidebar .search {
+  display: none !important;
+}
+
+body.no-sidebar .content {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 980px !important;
+  width: 100% !important;
+  padding: 2rem 1.25rem 3rem !important;
+}
+
+body.no-sidebar .markdown-section {
+  max-width: 100% !important;
+}
+
+body.no-sidebar .markdown-section h2 {
+  margin-top: 2.2rem !important;
+}
+
+body.no-sidebar .markdown-section hr {
+  margin: 2.2rem 0 !important;
+}
+
+@media screen and (min-width: 769px) {
+  body.no-sidebar .content {
+    padding: 2.5rem 2rem 4rem !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body.no-sidebar .content {
+    padding: 1rem 1rem 2.5rem !important;
+  }
+}

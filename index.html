@@ -12,24 +12,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="close no-sidebar">
   <div id="app"></div>
   <script>
     window.$docsify = {
       name: 'PinkWallet',
-      loadSidebar: true,
-      loadCoverpage: true,
-      coverpage: true,
+      loadSidebar: false,
+      loadCoverpage: false,
+      coverpage: false,
       subMaxLevel: 3,
       auto2top: true,
-      homepage: 'README.md',
+      homepage: 'SINGLE_PAGE.md',
       relativePath: true,
-      search: {
-        maxAge: 86400000,
-        paths: 'auto',
-        placeholder: '搜索文档...',
-        noData: '未找到结果'
-      },
       formatUpdated: false,
       copyCode: {
         buttonText: '复制',
@@ -39,23 +33,6 @@
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@3/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
-  <script>
-    (function() {
-      function syncSidebarState() {
-        if (window.innerWidth <= 768) {
-          document.body.classList.add('close');
-          return;
-        }
-        document.body.classList.remove('close');
-      }
-
-      syncSidebarState();
-      window.addEventListener('resize', function() {
-        syncSidebarState();
-      });
-    })();
-  </script>
 </body>
 </html>
