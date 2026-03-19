@@ -21,6 +21,3 @@
   * [API 计费模型](04-baas/02-billing.md)
 * [五、风控与安全体系](05-risk-security.md)
 * [六、系统特性](06-system-features.md)
-* 七、附录
-  * [免责声明](07-disclaimer.md)
-  * [总结](08-summary.md)
