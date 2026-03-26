@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Developer - Token Debugger (Mock)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+    }
+
+    .sidebar {
+      width: 220px;
+      height: 100vh;
+      background: #1c1e21;
+      color: #fff;
+      position: fixed;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .sidebar h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar div {
+      margin: 10px 0;
+      color: #ccc;
+    }
+
+    .main {
+      margin-left: 240px;
+      padding: 40px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+    }
+
+    .title {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .row {
+      margin-bottom: 15px;
+    }
+
+    .label {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .value {
+      margin-top: 5px;
+      padding: 10px;
+      background: #f5f6f7;
+      border-radius: 6px;
+      font-family: monospace;
+      word-break: break-all;
+    }
+
+    .token {
+      color: #1877f2;
+    }
+
+    .status {
+      color: green;
+      font-weight: bold;
+    }
+
+    .permissions {
+      background: #f5f6f7;
+      padding: 10px;
+      border-radius: 6px;
+      font-family: monospace;
+    }
+
+    .btn {
+      margin-top: 20px;
+      background: #1877f2;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Meta Developers</h2>
+    <div>Dashboard</div>
+    <div>App Settings</div>
+    <div>Roles</div>
+    <div>Tools</div>
+    <div><b>Access Token Tool</b></div>
+  </div>
+
+  <div class="main">
+    <div class="card">
+      <div class="title">Access Token Debugger</div>
+
+      <div class="row">
+        <div class="label">App ID</div>
+        <div class="value">183729104729301</div>
+      </div>
+
+      <div class="row">
+        <div class="label">App Name</div>
+        <div class="value">Marketing API Tool</div>
+      </div>
+
+      <div class="row">
+        <div class="label">User ID</div>
+        <div class="value">10293847561029384</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Access Token</div>
+        <div class="value token" id="token"></div>
+      </div>
+
+      <div class="row">
+        <div class="label">Expires</div>
+        <div class="value">Never (Long-lived Token)</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Status</div>
+        <div class="value status">Valid</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Permissions</div>
+        <div class="permissions">
+          public_profile<br>
+          email<br>
+          ads_management<br>
+          business_management
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="label">Last API Call</div>
+        <div class="value">
+          GET /v18.0/me?fields=id,name<br>
+          2026-03-26 18:52:31<br>
+          Response: 200 OK
+        </div>
+      </div>
+
+      <button class="btn" onclick="generateToken()">Generate New Token</button>
+    </div>
+  </div>
+
+  <script>
+    function randomString(length) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let result = "";
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    function generateToken() {
+      const token = "EAAG" + randomString(20) + "ZCZD" + randomString(40);
+      document.getElementById("token").innerText = token;
+    }
+
+    // Initialize with one token
+    generateToken();
+  </script>
+</body>
+</html>
