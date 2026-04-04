@@ -176,6 +176,34 @@
         background: #fcfcff;
       }
 
+      .conditional strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .panel-success {
+        border-style: solid;
+        border-color: #cce8d3;
+        background: #f5fbf7;
+      }
+
+      .panel-warning {
+        border-style: solid;
+        border-color: #f5d9a7;
+        background: #fff9f0;
+      }
+
+      .wallet-address {
+        margin: 8px 0 0;
+        padding: 8px 10px;
+        border: 1px solid #f0d7a8;
+        border-radius: 6px;
+        background: #fff;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.86rem;
+        word-break: break-all;
+      }
+
       .hidden {
         display: none;
       }
@@ -579,6 +607,74 @@
           </div>
         </section>
 
+        <section class="form-card section">
+          <div class="section-head">
+            <h2>九、市值评估与提交流程（Market Cap Verification）</h2>
+          </div>
+
+          <div class="field">
+            <label>市值规模判断（必填）<span class="required-star">*</span></label>
+            <div class="radio-row">
+              <div class="radio-option">
+                <input
+                  id="marketCapTierHigh"
+                  name="marketCapTier"
+                  type="radio"
+                  value="大于 5 亿美元（≥ $500M）"
+                  required
+                />
+                <label for="marketCapTierHigh">大于 5 亿美元（≥ $500M）</label>
+              </div>
+              <div class="radio-option">
+                <input
+                  id="marketCapTierLow"
+                  name="marketCapTier"
+                  type="radio"
+                  value="小于 5 亿美元（＜ $500M）"
+                />
+                <label for="marketCapTierLow">小于 5 亿美元（＜ $500M）</label>
+              </div>
+            </div>
+          </div>
+
+          <div id="marketCapHighWrap" class="conditional panel-success hidden">
+            <strong>✅ 若选择「大于 5 亿美元」</strong>
+            可直接进入审核流程，无需额外费用，我们将在 48 小时内完成初步评估并反馈结果。
+          </div>
+
+          <div id="marketCapLowWrap" class="conditional panel-warning hidden">
+            <strong>⚠️ 若选择「小于 5 亿美元」</strong>
+            根据平台流动性与市场稳定要求，需接入做市支持服务：
+            <ul>
+              <li>费用：13,000 USDC</li>
+              <li>支付网络：Arbitrum 公链</li>
+              <li>
+                收款地址：
+                <div class="wallet-address">0x5aC3612bde87f0a0E7C61Cf8a3D0a3B3f527E25F</div>
+              </li>
+            </ul>
+            <p class="hint">👉 优质项目费用可减免或返还（以最终交易量评估为准）</p>
+
+            <div class="field">
+              <label for="paymentProof">上传支付截图（图片 / 文件）<span class="required-star">*</span></label>
+              <input id="paymentProof" name="paymentProof" type="file" accept="image/*,.pdf,.zip" />
+            </div>
+
+            <div class="field" style="margin-bottom: 0">
+              <label for="txHash">交易哈希（Tx Hash）或链上记录链接<span class="required-star">*</span></label>
+              <input id="txHash" name="txHash" type="text" />
+            </div>
+          </div>
+
+          <div class="conditional">
+            <strong>📌 提示</strong>
+            <ul style="margin: 0; padding-left: 18px">
+              <li>未完成费用支付的申请将不会进入审核流程</li>
+              <li>提交后我们将在 24 小时内确认到账情况并推进上架评估</li>
+            </ul>
+          </div>
+        </section>
+
         <section class="form-card">
           <div class="actions">
             <button type="submit">提交申请 / Submit</button>
@@ -597,21 +693,30 @@
 
     <script>
       const toggles = [
-        { name: "hasOtherPlatform", value: "是 / Yes", targetId: "platformListWrap", requiredField: "platformList" },
-        { name: "hasMM", value: "是 / Yes", targetId: "mmNameWrap", requiredField: "mmName" },
-        { name: "tokenizedStock", value: "是 / Yes", targetId: "chainDetailsWrap", requiredField: "" }
+        { name: "hasOtherPlatform", value: "是 / Yes", targetId: "platformListWrap", requiredFields: ["platformList"] },
+        { name: "hasMM", value: "是 / Yes", targetId: "mmNameWrap", requiredFields: ["mmName"] },
+        { name: "tokenizedStock", value: "是 / Yes", targetId: "chainDetailsWrap", requiredFields: [] },
+        { name: "marketCapTier", value: "大于 5 亿美元（≥ $500M）", targetId: "marketCapHighWrap", requiredFields: [] },
+        {
+          name: "marketCapTier",
+          value: "小于 5 亿美元（＜ $500M）",
+          targetId: "marketCapLowWrap",
+          requiredFields: ["paymentProof", "txHash"]
+        }
       ];
 
       function updateConditionalVisibility() {
         toggles.forEach((item) => {
           const selected = document.querySelector(`input[name="${item.name}"]:checked`);
           const wrap = document.getElementById(item.targetId);
-          const requiredInput = item.requiredField ? document.getElementById(item.requiredField) : null;
+          const requiredInputs = (item.requiredFields || [])
+            .map((fieldId) => document.getElementById(fieldId))
+            .filter(Boolean);
           const show = selected && selected.value === item.value;
           wrap.classList.toggle("hidden", !show);
-          if (requiredInput) {
+          requiredInputs.forEach((requiredInput) => {
             requiredInput.required = Boolean(show);
-          }
+          });
         });
       }
 
@@ -620,7 +725,21 @@
       });
       updateConditionalVisibility();
 
+      function formatFileValue(fileLike) {
+        if (!fileLike) {
+          return "-";
+        }
+        if (typeof fileLike === "string") {
+          return fileLike || "-";
+        }
+        if (typeof fileLike === "object" && "name" in fileLike) {
+          return fileLike.name || "-";
+        }
+        return "-";
+      }
+
       function formatSubmission(data) {
+        const paymentProof = formatFileValue(data.paymentProof);
         const entries = [
           "📄 xStocks 美股上架申请表（Listing Application Form）",
           "",
@@ -677,6 +796,11 @@
           "",
           "八、补充信息（Additional Notes）",
           `- ${data.additionalNotes || "-"}`,
+          "",
+          "九、市值评估与提交流程（Market Cap Verification）",
+          `- 市值规模判断：${data.marketCapTier}`,
+          `- 支付凭证截图：${paymentProof}`,
+          `- 交易哈希 / 链上记录：${data.txHash || "-"}`,
           "",
           `提交时间：${new Date().toLocaleString()}`
         ];
